@@ -3,22 +3,6 @@ from tkinter import ttk
 import sqlite3
 
 
-
-
-class Database:
-
-    def __init__(self):
-        self.conn_ = sqlite3.connect("grocery.db")
-        self.cursor_ = self.conn_.cursor()
-
-        self.cursor_.execute("""CREATE TABLE IF NOT EXISTS grocery(
-                product text,
-                exp_date text,
-                price real
-        );""")
-
-
-
 class Table(tk.LabelFrame):
 
     def __init__(self, parent):
@@ -117,20 +101,40 @@ class Entry(tk.LabelFrame):
         tk.Entry(self, textvariable = self.price_).grid(row = 3, column = 1, padx = 5, pady = 3)
         
         tk.Button(self, text = "Hinzufügen", command = self.addEntry).grid(row = 4, column = 0, padx = 5, pady = 3)
-        tk.Button(self, text = "Löschen", command = self.addEntry).grid(row = 4, column = 1, padx = 5, pady = 3)
+        tk.Button(self, text = "Löschen", command = self.deleteEntry).grid(row = 4, column = 1, padx = 5, pady = 3)
 
 
 
     def addEntry(self):
-        print(self.product_.get())
+        if self.product_.get() != '' and self.exp_date_.get() != '' and self.price_.get() != '':
+            
+            self.table_.cursor_.execute("INSERT INTO grocery VALUES (:prod, :exp_date, :price)", 
+                {"prod":self.product_.get(), "exp_date":self.exp_date_.get(), "price":self.price_.get()})
+
+            
+
+            self.table_.cursor_.execute("SELECT * FROM grocery")
+            self.table_.updateTable(self.table_.cursor_.fetchall())
+
+            self.table_.conn_.commit()
+
+
+    def deleteEntry(self):
+        if self.product_.get() != '' and self.exp_date_.get() != '' and self.price_.get() != '':
+            self.table_.cursor_.execute("""DELETE FROM grocery
+                WHERE product = :prod AND exp_date = :exp_date AND price = :price""",
+                {"prod": self.product_.get(), "exp_date": self.exp_date_.get(), "price": self.price_.get()})
+            
+
+            self.table_.cursor_.execute("SELECT * FROM grocery")
+            self.table_.updateTable(self.table_.cursor_.fetchall())
+
+            self.table_.conn_.commit()
+
+
 
         
         
-
-
-
-
-
 
 
 if __name__ == "__main__":
