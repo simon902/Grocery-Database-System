@@ -34,6 +34,16 @@ class Table(tk.LabelFrame):
         # User Input
         Search(parent ,self)
         Entry(parent, self)
+
+
+        # Legend
+        legend = tk.LabelFrame(parent, text = "Legende")
+        legend.grid(row = 2, column = 0)
+        tk.Label(legend, bg = "#ff0000", width = 5).grid(row = 0, column = 1, padx = 5, pady = 3)
+        tk.Label(legend, text = "Ablaufdatum in 1 Tag", ).grid(row = 0, column = 0, padx = 5, pady = 3)
+
+        tk.Label(legend, bg = "#FFFF00", width = 5).grid(row = 1, column = 1, padx = 5, pady = 3)
+        tk.Label(legend, text = "Ablaufdatum in 3 Tagen", ).grid(row = 1, column = 0, padx = 5, pady = 3)
     
 
     def __del__(self):
@@ -157,13 +167,7 @@ if __name__ == "__main__":
 
     tk.Label(root, text = "Grocery-Database-System", font = ("Arial", 40)).grid(row = 0, column = 0, columnspan = 3)
 
-    frame = tk.LabelFrame(root, text = "Program")
-    frame.grid(row = 2, column = 0)
-    tk.Label(frame, bg = "#ff0000", width = 5).grid(row = 0, column = 1, padx = 5, pady = 3)
-    tk.Label(frame, text = "Ablaufdatum in 1 Tag", ).grid(row = 0, column = 0, padx = 5, pady = 3)
-
-    tk.Label(frame, bg = "#FFFF00", width = 5).grid(row = 1, column = 1, padx = 5, pady = 3)
-    tk.Label(frame, text = "Ablaufdatum in 3 Tagen", ).grid(row = 1, column = 0, padx = 5, pady = 3)
+       
     table = Table(root)
     
 
