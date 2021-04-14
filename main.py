@@ -158,18 +158,17 @@ class Entry(tk.LabelFrame):
             self.table_.conn_.commit()
         
         
+def main():
 
-
-if __name__ == "__main__":
     root = tk.Tk()
     root.title("Grocery-Database-System")
     root.geometry("980x600")
 
     tk.Label(root, text = "Grocery-Database-System", font = ("Arial", 40)).grid(row = 0, column = 0, columnspan = 3)
-
-       
-    table = Table(root)
-    
-
-    
+      
+    Table(root)
     root.mainloop()
+
+
+if __name__ == "__main__":
+    main()
