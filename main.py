@@ -7,7 +7,7 @@ class Table(tk.LabelFrame):
 
     def __init__(self, parent):
         tk.LabelFrame.__init__(self, parent, padx = 5, pady = 5)
-        self.grid(row = 1, column = 0, rowspan = 2, pady = 7)
+        self.grid(row = 1, column = 0, columnspan = 3, padx = 5, pady = 7)
 
         # Create Treeview Table
         cols = ("ID", "Produkt", "Ablaufdatum", "Preis")
@@ -56,10 +56,11 @@ class Table(tk.LabelFrame):
 
         one_day = datetime.timedelta(days = 1)
         three_days = datetime.timedelta(days = 3)
-        if str(date) == str(today - one_day):
+
+        if str(date) >= str(today - one_day):
             return "red"
 
-        elif str(date) == str(today - three_days):
+        elif str(date) >= str(today - three_days):
             return "yellow"
         
         else:
@@ -70,7 +71,7 @@ class Search(tk.Frame):
 
     def __init__(self, parent, table):
         tk.LabelFrame.__init__(self, parent, text = "Search")
-        self.grid(row = 1, column = 1, ipadx = 20, padx = 5)
+        self.grid(row = 2, column = 1, ipadx = 20, padx = 5, sticky = "W")
         
         self.table_ = table
 
@@ -112,13 +113,13 @@ class Entry(tk.LabelFrame):
 
     def __init__(self, parent, table):
         tk.LabelFrame.__init__(self, parent, text = "Entry")
-        self.grid(row = 2, column = 1, ipadx = 10, padx = 5, pady = 3)
+        self.grid(row = 2, column = 2, ipadx = 10, padx = 5, pady = 3, sticky = "W")
 
         self.table_ = table
 
         self.product_ = tk.StringVar()
         self.exp_date_ = tk.StringVar()
-        self.price_ = tk.StringVar()
+        
         
         tk.Label(self, text = "Produkt").grid(row = 0, column = 0, padx = 5, pady = 3)
         tk.Entry(self, textvariable = self.product_).grid(row = 0, column = 1, padx = 5, pady = 3)
@@ -127,8 +128,9 @@ class Entry(tk.LabelFrame):
         tk.Entry(self, textvariable = self.exp_date_).grid(row = 1, column = 1, padx = 5, pady = 3)
 
         tk.Label(self, text = "Preis").grid(row = 3, column = 0, padx = 5, pady = 3)
-        tk.Entry(self, textvariable = self.price_).grid(row = 3, column = 1, padx = 5, pady = 3)
-        
+        self.price_ = tk.Entry(self)
+        self.price_.grid(row = 3, column = 1, padx = 5, pady = 3)
+
         tk.Button(self, text = "Hinzufügen", command = self.addEntry).grid(row = 4, column = 0, padx = 5, pady = 3)
         
 
@@ -139,7 +141,6 @@ class Entry(tk.LabelFrame):
             self.table_.cursor_.execute("INSERT INTO grocery VALUES (:prod, :exp_date, :price)", 
                 {"prod":self.product_.get(), "exp_date":self.exp_date_.get(), "price":self.price_.get()})
 
-            
 
             self.table_.cursor_.execute("SELECT rowid, * FROM grocery")
             self.table_.updateTable(self.table_.cursor_.fetchall())
@@ -152,13 +153,17 @@ class Entry(tk.LabelFrame):
 if __name__ == "__main__":
     root = tk.Tk()
     root.title("Grocery-Database-System")
-    root.geometry("1200x600")
+    root.geometry("980x600")
 
-    tk.Label(root, text = "Grocery-Database-System", font = ("Arial", 40)).grid(row = 0, column = 0)
+    tk.Label(root, text = "Grocery-Database-System", font = ("Arial", 40)).grid(row = 0, column = 0, columnspan = 3)
 
     frame = tk.LabelFrame(root, text = "Program")
-    frame.grid(row = 1, column = 0)
+    frame.grid(row = 2, column = 0)
+    tk.Label(frame, bg = "#ff0000", width = 5).grid(row = 0, column = 1, padx = 5, pady = 3)
+    tk.Label(frame, text = "Ablaufdatum in 1 Tag", ).grid(row = 0, column = 0, padx = 5, pady = 3)
 
+    tk.Label(frame, bg = "#FFFF00", width = 5).grid(row = 1, column = 1, padx = 5, pady = 3)
+    tk.Label(frame, text = "Ablaufdatum in 3 Tagen", ).grid(row = 1, column = 0, padx = 5, pady = 3)
     table = Table(root)
     
 
