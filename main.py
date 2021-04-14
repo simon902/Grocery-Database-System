@@ -3,9 +3,12 @@ from tkinter import ttk
 import sqlite3
 import datetime
 
+
+
 class Table(tk.LabelFrame):
 
     def __init__(self, parent):
+
         tk.LabelFrame.__init__(self, parent, padx = 5, pady = 5)
         self.grid(row = 1, column = 0, columnspan = 3, padx = 5, pady = 7)
 
@@ -47,14 +50,18 @@ class Table(tk.LabelFrame):
     
 
     def __del__(self):
+
         self.conn_.commit()
         self.conn_.close()
     
+    
     def updateTable(self, rows):
+
         self.tree_.delete(*self.tree_.get_children())
+
         for row in rows:
-            tag = self.checkDate(row[2])
-            
+
+            tag = self.checkDate(row[2]) # checks date of tuple
             self.tree_.insert("", "end", values = row, tag = str(tag))
         
         self.tree_.tag_configure(tagname = "red", background = "#ff0000")
@@ -62,11 +69,13 @@ class Table(tk.LabelFrame):
 
 
     def checkDate(self, date):
+
         today = datetime.date.today()
 
         one_day = datetime.timedelta(days = 1)
         three_days = datetime.timedelta(days = 3)
 
+        # Compares two strings in a lexicographical manner
         if str(date) >= str(today - one_day):
             return "red"
 
@@ -77,9 +86,11 @@ class Table(tk.LabelFrame):
             return "default"
 
 
+
 class Search(tk.Frame):
 
     def __init__(self, parent, table):
+
         tk.LabelFrame.__init__(self, parent, text = "Search")
         self.grid(row = 2, column = 1, ipadx = 20, padx = 5, sticky = "W")
         
@@ -95,20 +106,24 @@ class Search(tk.Frame):
         tk.Button(self, text = "Reset", command = self.reset).grid(row = 1, column = 1, padx = 5, pady = 2)
         tk.Button(self, text = "Löschen", command = self.deleteEntry).grid(row = 2, column = 1, padx = 5, pady = 3)
 
+
     def search(self):
+
         self.table_.cursor_.execute("""SELECT rowid, * FROM grocery
             WHERE product = :prod""", {"prod": self.search_.get()})
         self.table_.updateTable(self.table_.cursor_.fetchall())
 
 
     def reset(self):
+
         self.entry_.delete(0, "end")
 
         self.table_.cursor_.execute("SELECT rowid, * FROM GROCERY")
         self.table_.updateTable(self.table_.cursor_.fetchall())
-        
+
 
     def deleteEntry(self):
+
         if self.search_ != '':
             self.table_.cursor_.execute("""DELETE FROM grocery
                 WHERE rowid = :id """, {"id": self.search_.get()})
@@ -119,9 +134,12 @@ class Search(tk.Frame):
 
             self.table_.conn_.commit()
 
+
+
 class Entry(tk.LabelFrame):
 
     def __init__(self, parent, table):
+
         tk.LabelFrame.__init__(self, parent, text = "Entry")
         self.grid(row = 2, column = 2, ipadx = 10, padx = 5, pady = 3, sticky = "W")
 
@@ -144,8 +162,8 @@ class Entry(tk.LabelFrame):
         tk.Button(self, text = "Hinzufügen", command = self.addEntry).grid(row = 4, column = 0, padx = 5, pady = 3)
         
 
-
     def addEntry(self):
+
         if self.product_.get() != '' and self.exp_date_.get() != '' and self.price_.get() != '':
             
             self.table_.cursor_.execute("INSERT INTO grocery VALUES (:prod, :exp_date, :price)", 
@@ -171,4 +189,5 @@ def main():
 
 
 if __name__ == "__main__":
+    
     main()
