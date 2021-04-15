@@ -83,10 +83,10 @@ class Table(tk.LabelFrame):
         three_days = datetime.timedelta(days = 3)
 
         # Compares two strings in a lexicographical manner
-        if str(today - one_day) >= str(date):
+        if str(today + one_day) >= str(date):
             return "red"
 
-        elif str(today - three_days) >= str(date):
+        elif str(today + three_days) >= str(date):
             return "yellow"
         
         else:
@@ -187,10 +187,15 @@ def main():
 
     root = tk.Tk()
     root.title("Grocery-Database-System")
-    root.geometry("980x600")
+    root.configure(bg = "#BDEDFF")
+    root.geometry("830x460")
 
-    tk.Label(root, text = "Grocery-Database-System", font = ("Arial", 40)).grid(row = 0, column = 0, columnspan = 3)
-      
+    # TODO: root windows Icon
+
+
+    header = tk.Label(root, text = "Grocery-Database-System", font = ("Arial", 40), relief = "sunken", bg = "#ADD8E6")
+    header.grid(row = 0, column = 0, columnspan = 3, pady = 3)
+
     Table(root)
     root.mainloop()
 
