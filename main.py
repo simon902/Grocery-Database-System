@@ -14,11 +14,17 @@ class Table(tk.LabelFrame):
 
         # Create Treeview Table
         cols = ("ID", "Produkt", "Ablaufdatum", "Preis")
-        self.tree_ = ttk.Treeview(self, columns = cols, show = "headings")
+        self.tree_ = ttk.Treeview(self, columns = cols, show = "headings", selectmode = "browse")
         
         for column in cols:
             self.tree_.heading(column, text = column)
-        self.tree_.pack()
+        self.tree_.pack(side = "left")
+
+
+        # Scrollbar
+        scroll_ = ttk.Scrollbar(self, orient = "vertical", command = self.tree_.yview)
+        scroll_.pack(side = "right", fill = "y")
+        self.tree_.configure(yscrollcommand = scroll_.set)
 
         # Database
         self.conn_ = sqlite3.connect("grocery.db")
@@ -40,8 +46,9 @@ class Table(tk.LabelFrame):
 
 
         # Legend
-        legend = tk.LabelFrame(parent, text = "Legende")
+        legend = tk.LabelFrame(parent, text = "Legende", padx = 5, pady = 3)
         legend.grid(row = 2, column = 0)
+
         tk.Label(legend, bg = "#ff0000", width = 5).grid(row = 0, column = 1, padx = 5, pady = 3)
         tk.Label(legend, text = "Ablaufdatum in 1 Tag", ).grid(row = 0, column = 0, padx = 5, pady = 3)
 
