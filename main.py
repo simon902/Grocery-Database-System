@@ -83,10 +83,10 @@ class Table(tk.LabelFrame):
         three_days = datetime.timedelta(days = 3)
 
         # Compares two strings in a lexicographical manner
-        if str(date) >= str(today - one_day):
+        if str(today - one_day) >= str(date):
             return "red"
 
-        elif str(date) >= str(today - three_days):
+        elif str(today - three_days) >= str(date):
             return "yellow"
         
         else:
