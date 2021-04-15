@@ -47,7 +47,7 @@ class Table(tk.LabelFrame):
 
         # Legend
         legend = tk.LabelFrame(parent, text = "Legende", padx = 5, pady = 3)
-        legend.grid(row = 2, column = 0)
+        legend.grid(row = 2, column = 0, padx = 5)
 
         tk.Label(legend, bg = "#ff0000", width = 5).grid(row = 0, column = 1, padx = 5, pady = 3)
         tk.Label(legend, text = "Ablaufdatum in 1 Tag", ).grid(row = 0, column = 0, padx = 5, pady = 3)
@@ -188,8 +188,7 @@ def main():
     root = tk.Tk()
     root.title("Grocery-Database-System")
     root.configure(bg = "#BDEDFF")
-    root.geometry("830x460")
-
+    
     # TODO: root windows Icon
 
 
