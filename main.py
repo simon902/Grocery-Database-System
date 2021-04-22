@@ -15,7 +15,12 @@ class Table(tk.LabelFrame):
         # Create Treeview Table
         cols = ("ID", "Produkt", "Ablaufdatum", "Preis")
         self.tree_ = ttk.Treeview(self, columns = cols, show = "headings", selectmode = "browse")
-        
+
+        self.tree_.column("ID", anchor = "w", width = 80)
+        self.tree_.column("Produkt", anchor = "center", width = 200)
+        self.tree_.column("Ablaufdatum", anchor = "center", width = 200)
+        self.tree_.column("Preis", anchor = "center", width = 110)
+
         for column in cols:
             self.tree_.heading(column, text = column)
         self.tree_.pack(side = "left")
@@ -99,7 +104,7 @@ class Search(tk.Frame):
     def __init__(self, parent, table):
 
         tk.LabelFrame.__init__(self, parent, text = "Search")
-        self.grid(row = 2, column = 1, ipadx = 20, padx = 5, sticky = "W")
+        self.grid(row = 2, column = 1, ipadx = 5, padx = 5, sticky = "W")
         
         self.table_ = table
 
@@ -188,7 +193,7 @@ def main():
     root = tk.Tk()
     root.title("Grocery-Database-System")
     root.configure(bg = "#BDEDFF")
-    
+    root.geometry("770x470")
     # TODO: root windows Icon
 
 
