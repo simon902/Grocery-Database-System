@@ -4,6 +4,19 @@ import sqlite3
 import datetime
 import sys
 
+# Fix for setting text colour for Tkinter 8.6.9
+# From: https://core.tcl.tk/tk/info/509cafafae
+def fixed_map(option, style):
+
+    # Returns the style map for 'option' with any styles starting with
+    # ('!disabled', '!selected', ...) filtered out.
+
+    # style.map() returns an empty list for missing options, so this
+    # should be future-safe.
+    return [elm for elm in style.map('Treeview', query_opt=option) if
+        elm[:2] != ('!disabled', '!selected')]
+
+
 
 class Table(tk.LabelFrame):
 
@@ -11,6 +24,12 @@ class Table(tk.LabelFrame):
 
         tk.LabelFrame.__init__(self, parent, padx = 5, pady = 5)
         self.grid(row = 1, column = 0, columnspan = 3, padx = 5, pady = 7)
+
+        # Fix for setting text colour for Tkinter 8.6.9
+        # From: https://core.tcl.tk/tk/info/509cafafae
+        if tk.Tcl().eval('info patchlevel') == '8.6.9':
+            style = ttk.Style()
+            style.map('Treeview', foreground=fixed_map('foreground', style), background=fixed_map('background', style))
 
         # Create Treeview Table
         cols = ("ID", "Produkt", "Ablaufdatum", "Preis")
@@ -194,6 +213,7 @@ def main():
     root.title("Grocery-Database-System")
     root.configure(bg = "#BDEDFF")
     root.geometry("770x470")
+    root.attributes('-fullscreen', True)
     # TODO: root windows Icon
 
 
