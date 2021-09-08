@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter import ttk
 import sqlite3
 import datetime
-
+import sys
 
 
 class Table(tk.LabelFrame):
@@ -32,7 +32,7 @@ class Table(tk.LabelFrame):
         self.tree_.configure(yscrollcommand = scroll_.set)
 
         # Database
-        self.conn_ = sqlite3.connect("grocery.db")
+        self.conn_ = sqlite3.connect(sys.argv[1])
         self.cursor_ = self.conn_.cursor()
 
         self.cursor_.execute("""CREATE TABLE IF NOT EXISTS grocery(
