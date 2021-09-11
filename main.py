@@ -141,7 +141,7 @@ class Search(tk.Frame):
     def search(self):
 
         self.table_.cursor_.execute("""SELECT rowid, * FROM grocery
-            WHERE product = :prod""", {"prod": self.search_.get()})
+            WHERE product LIKE :prod""", {"prod": '%' + self.search_.get() + '%'})
         self.table_.updateTable(self.table_.cursor_.fetchall())
 
 
