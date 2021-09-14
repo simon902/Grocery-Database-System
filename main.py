@@ -215,7 +215,7 @@ def main():
     root.title("Grocery-Database-System")
     root.configure(bg = "#BDEDFF")
     root.geometry("770x470")
-    #root.attributes('-fullscreen', True)
+    root.attributes('-fullscreen', True)
     # TODO: root windows Icon
 
 
