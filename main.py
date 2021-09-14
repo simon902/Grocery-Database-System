@@ -23,7 +23,7 @@ class Table(tk.LabelFrame):
     def __init__(self, parent):
 
         tk.LabelFrame.__init__(self, parent, padx = 5, pady = 5)
-        self.grid(row = 1, column = 0, columnspan = 3, padx = 5, pady = 7)
+        self.grid(row = 1, column = 0, columnspan = 3, padx = 60, pady = 7)
 
         # Fix for setting text colour for Tkinter 8.6.9
         # From: https://core.tcl.tk/tk/info/509cafafae
@@ -132,7 +132,7 @@ class Search(tk.Frame):
         self.search_.trace("w", lambda name, index, mode: self.search())
 
         tk.Label(self, text = "Suchen").grid(row = 0, column = 0, padx = 5, pady = 3)
-        self.entry_ = tk.Entry(self, textvariable = self.search_, width = 10)
+        self.entry_ = tk.Entry(self, textvariable = self.search_, width = 15)
         self.entry_.grid(row = 0, column = 1, padx = 5, pady = 3)
 
         #tk.Button(self, text = "Suchen", command = self.search).grid(row = 1, column = 0, padx = 5, pady = 2)
@@ -220,7 +220,7 @@ def main():
 
 
     header = tk.Label(root, text = "Grocery-Database-System", font = ("Arial", 40), relief = "sunken", bg = "#ADD8E6")
-    header.grid(row = 0, column = 0, columnspan = 3, pady = 3)
+    header.grid(row = 0, column = 0, columnspan = 3, pady = 3, padx = 10)
 
     Table(root)
     root.mainloop()
