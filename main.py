@@ -128,20 +128,21 @@ class Search(tk.Frame):
         self.table_ = table
 
         self.search_ = tk.StringVar()
+        # Incremental Search
+        self.search_.trace("w", lambda name, index, mode: self.search())
 
         tk.Label(self, text = "Suchen").grid(row = 0, column = 0, padx = 5, pady = 3)
         self.entry_ = tk.Entry(self, textvariable = self.search_)
         self.entry_.grid(row = 0, column = 1, padx = 5, pady = 3)
 
-        tk.Button(self, text = "Suchen", command = self.search).grid(row = 1, column = 0, padx = 5, pady = 2)
-        tk.Button(self, text = "Reset", command = self.reset).grid(row = 1, column = 1, padx = 5, pady = 2)
+        #tk.Button(self, text = "Suchen", command = self.search).grid(row = 1, column = 0, padx = 5, pady = 2)
+        #tk.Button(self, text = "Reset", command = self.reset).grid(row = 1, column = 1, padx = 5, pady = 2)
         tk.Button(self, text = "Löschen", command = self.deleteEntry).grid(row = 2, column = 1, padx = 5, pady = 3)
 
 
     def search(self):
-
         self.table_.cursor_.execute("""SELECT rowid, * FROM grocery
-            WHERE product LIKE :prod""", {"prod": '%' + self.search_.get() + '%'})
+            WHERE product LIKE :prod OR rowid = :id""", {"prod": '%' + self.search_.get() + '%', "id": self.search_.get()})
         self.table_.updateTable(self.table_.cursor_.fetchall())
 
 
@@ -213,7 +214,7 @@ def main():
     root.title("Grocery-Database-System")
     root.configure(bg = "#BDEDFF")
     root.geometry("770x470")
-    root.attributes('-fullscreen', True)
+    #root.attributes('-fullscreen', True)
     # TODO: root windows Icon
 
 
