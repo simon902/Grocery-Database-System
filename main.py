@@ -132,7 +132,7 @@ class Search(tk.Frame):
         self.search_.trace("w", lambda name, index, mode: self.search())
 
         tk.Label(self, text = "Suchen").grid(row = 0, column = 0, padx = 5, pady = 3)
-        self.entry_ = tk.Entry(self, textvariable = self.search_)
+        self.entry_ = tk.Entry(self, textvariable = self.search_, width = 10)
         self.entry_.grid(row = 0, column = 1, padx = 5, pady = 3)
 
         #tk.Button(self, text = "Suchen", command = self.search).grid(row = 1, column = 0, padx = 5, pady = 2)
@@ -179,20 +179,20 @@ class Entry(tk.LabelFrame):
 
         self.product_ = tk.StringVar()
         self.exp_date_ = tk.StringVar()
+        self.price_ = tk.StringVar()
         
         
         tk.Label(self, text = "Produkt").grid(row = 0, column = 0, padx = 5, pady = 3)
-        tk.Entry(self, textvariable = self.product_).grid(row = 0, column = 1, padx = 5, pady = 3)
+        tk.Entry(self, textvariable = self.product_, width = 15).grid(row = 0, column = 1, padx = 5, pady = 3)
 
         tk.Label(self, text = "Ablaufdatum").grid(row = 1, column = 0, padx = 5, pady = 3)
-        tk.Entry(self, textvariable = self.exp_date_).grid(row = 1, column = 1, padx = 5, pady = 3)
+        tk.Entry(self, textvariable = self.exp_date_, width = 15).grid(row = 1, column = 1, padx = 5, pady = 3)
 
         tk.Label(self, text = "Preis").grid(row = 3, column = 0, padx = 5, pady = 3)
-        self.price_ = tk.Entry(self)
-        self.price_.grid(row = 3, column = 1, padx = 5, pady = 3)
+        tk.Entry(self, textvariable = self.price_, width = 15).grid(row = 3, column = 1, padx = 5, pady = 3)
 
         tk.Button(self, text = "Hinzufügen", command = self.addEntry).grid(row = 4, column = 0, padx = 5, pady = 3)
-        
+
 
     def addEntry(self):
 
@@ -206,8 +206,9 @@ class Entry(tk.LabelFrame):
             self.table_.updateTable(self.table_.cursor_.fetchall())
 
             self.table_.conn_.commit()
-        
-        
+
+
+
 def main():
 
     root = tk.Tk()
